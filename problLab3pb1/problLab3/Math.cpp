@@ -52,7 +52,7 @@ int Math::Add(int count, ...)
     va_start(vl, count);
     for (i = 0; i < count; i++)
     {
-        val += va_arg(vl, int);
+        val += va_arg(vl, int); //extrage cate un elem si il aduna
     }
     va_end(vl);
     return val;
@@ -68,8 +68,8 @@ char* Math::Add(const char* s1, const char* s2)
     size = strlen(s1) + strlen(s2) + 1;
     char* newsir = new char[size];
     newsir[0] = '\0';
-    strcat_s(newsir, size, s1);
-    strcat_s(newsir, size, s2);
+    strcat_s(newsir, size, s1); //concatenare s1
+    strcat_s(newsir, size, s2); //concatenare s2
     newsir[size - 1] = '\0';
     return newsir;
 }
