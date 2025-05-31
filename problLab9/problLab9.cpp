@@ -13,10 +13,10 @@ public:
 		key = k;
 		index = i;
 
-		return value;
+		return value;//returneaza referinta la value, care e neinitializata
 	}
 
-	void Init(K k, V v, int i) {
+	void Init(K k, V v, int i) { //seteaza cheie, valoare, index pt Set()
 		key = k;
 		value = v;
 		index = i;
@@ -41,7 +41,7 @@ public:
 		return index != other.index;
 	}
 
-	auto operator*() {
+	auto operator*() { //returneaza o copie a Inregistrare
 		return values[index];
 	}
 };
@@ -49,12 +49,12 @@ public:
 template <typename K, typename V>
 class Map {
 private:
-	Inregistrare<K, V>* values;
-	int count;
-	int size;
+	Inregistrare<K, V>* values; //vector dinamic de inregistrari
+	int count; //nr elem
+	int size; //capacitatea alocata
 
 	void Resize() {
-		size *= 2;
+		size *= 2; //realoca vectorul
 		Inregistrare<K, V>* temp = new Inregistrare<K, V>[size];
 		for (int i = 0; i < count; i++)
 		{
@@ -64,14 +64,14 @@ private:
 		values = temp;
 	}
 
-	bool Find(const K& key) {
+	bool Find(const K& key) { //cauta daca exista o cheie in map
 		for (int i = 0; i < count;i++)
 			if (values[i].key == key)
 				return true;
 		return false;
 	}
 public:
-	Map() {
+	Map() { //constructor
 		values = new Inregistrare<K, V>[2];
 		size = 2;
 		count = 0;
@@ -96,14 +96,14 @@ public:
 		return Iterator<K, V>(values, count);
 	}
 
-	void Set(K key, V value)
+	void Set(K key, V value) //adauga o iterare completa
 	{
 		if (count == size)
 			Resize();
 		values[count].Init(key, value, count++);
 	}
 
-	bool Get(const K& key, V& value)
+	bool Get(const K& key, V& value) //cauta valoare dupa cheie
 	{
 		for (int i = 0; i < count;i++)
 			if (values[i].key == key)
@@ -114,11 +114,11 @@ public:
 		return false;
 	}
 
-	int Count() {
+	int Count() { //nr elemente
 		return count;
 	}
 
-	void Clear() {
+	void Clear() { //reseteaza map
 		delete[] values;
 
 		values = new Inregistrare<K, V>[2];
@@ -126,10 +126,10 @@ public:
 		count = 0;
 	}
 
-	bool Delete(const K& key)
+	bool Delete(const K& key) //sterge instrare dupa cheie
 	{
 		for (int i = 0; i < count;i++)
-			if (values[i].key = key)
+			if (values[i].key == key)
 			{
 				for (int j = i;j < count - 1;j++)
 					values[j] = values[j + 1];
@@ -139,7 +139,7 @@ public:
 		return false;
 	}
 
-	bool Includes(const Map<K, V>& other) {
+	bool Includes(const Map<K, V>& other) { //verif daca toate cheile din other exista in this
 		for (auto [k, v, i] : other)
 			if (!Find(k))
 				return false;
@@ -151,14 +151,14 @@ public:
 
 int main()
 {
-	Map<int, const char*> m;
+	Map<int, const char*> m; //creeaza o mapa intre int si const char
 	m[10] = "C++";
 	m[20] = "test";
 	m[30] = "Poo";
 
 	for (auto [key, value, index] : m)
 	{
-		printf("Index:%d, Key=%d, Value=%s\n", index, key, value);
+		printf("Index:%d, Key=%d, Value=%s\n", index, key, value);//afiseaza toate intrarile
 	}
 
 	return 0;
