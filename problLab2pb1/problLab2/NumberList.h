@@ -4,9 +4,9 @@ class NumberList
     int numbers[10];
     int count;
 public:
-    void Init();          // count will be 0
-    bool Add(int x);      // adds X to the numbers list and increase the data member count.
-    // if count is bigger or equal to 10, the function will return false
-    void Sort();          // will sort the numbers vector
-    void Print();         // will print the current vector
+    void Init();          
+    bool Add(int x);      // adauga X la lista de nr si mareste nr de elem
+    // daca sunt mai mult de 9 elem, functia returneaza fals
+    void Sort();          // sorteaza nr din vector
+    void Print();         // afiseaza vectorul
 };
