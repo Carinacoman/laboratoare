@@ -97,37 +97,37 @@ Number::Number(const Number& other) //copy constructor
 
 Number::Number(Number&& other) //move constructor
 {
-	val = other.val;
-	bas = other.bas;
-	size = other.size;
-	other.val = nullptr; //dezactiveaza sursa
+	val = other.val; //pointer
+	bas = other.bas; //baza
+	size = other.size; //dimensiune
+	other.val = nullptr; //dezactiveaza sirul sursa pt evitarea dublei eliberari
 }
 
 Number::~Number() //destructor
 {
-	delete[] val;
+	delete[] val; //elibereaza memoria alocata pt sir
 	val = nullptr;
 }
 
 Number& Number::operator=(Number&& other)
 { //move
-	if (this != &other) {
+	if (this != &other) { //verif sa nu fie autoasignare
 		delete[] val;
 		val = other.val;
 		bas = other.bas;
 		size = other.size;
-		other.val = nullptr;
+		other.val = nullptr; //dezactivam sursa
 	}
-	return *this;
+	return *this; //intoarce referinta la obiectul curent
 }
 
 Number& Number::operator=(const char* str)
 { //asignare din string
 	delete[] val;
-	size = strlen(str) + 1;
+	size = strlen(str) + 1; //actualizam dimensiunea
 	val = new char[size];
-	strcpy_s(val, size, str);
-	return *this;
+	strcpy_s(val, size, str); //copiem stringul nou in val
+	return *this; //intoarcem referinta la obiectul curent
 }
 
 Number& Number::operator=(int decimalValue)
@@ -138,26 +138,26 @@ Number& Number::operator=(int decimalValue)
 
 	size = strlen(Decimal) + 1;
 	val = new char[size];
-	strcpy_s(val, size, Decimal);
+	strcpy_s(val, size, Decimal); //copiem sirul rezultat
 	bas = 10;
 
 	delete[] Decimal;
 
-	return *this;
+	return *this; //intoarcem referinta la obiectul curent
 }
 
 Number& Number::operator+=(const Number& other)
 {
-	*this = *this + other;
+	*this = *this + other; //adunam si atribuim rezultatul in this
 	return *this;
 }
 
 char Number::operator[](int index)
 { //returneaza cifra de la pozitia index
 	if (index < GetDigitsCount() and index >= 0)
-		return val[index];
+		return val[index]; 
 	else
-		return '?';
+		return '?'; //daca indexul nu e valid
 }
 
 
@@ -165,7 +165,7 @@ void Number::SwitchBase(int newBase)
 {
 	if (newBase < 2 || newBase > 16)
 	{
-		printf("Baza trebuie sa fie intre 2 si 16 \n");
+		printf("Baza trebuie sa fie intre 2 si 16 \n"); //daca baza nu e valida
 	}
 
 	int DecValue = InBaza10(); //convertim in baza 10
@@ -176,30 +176,30 @@ void Number::SwitchBase(int newBase)
 
 	size = strlen(NewValue) + 1;
 	val = new char[size];
-	strcpy_s(val, size, NewValue);
-	bas = newBase;
+	strcpy_s(val, size, NewValue); //copiem sirul convertit
+	bas = newBase; //actualizam baza
 
 	delete[] NewValue;
 }
 
 void Number::Print()
 {
-	printf("%s \n", val);
+	printf("%s \n", val); //afisare sir val(valoarea curenta a numarului)
 }
 
 int Number::GetDigitsCount()
 {
-	return strlen(val);
+	return strlen(val); //returneaza lungimea(nr de cifre)
 }
 
 int Number::GetBase()
 {
-	return bas;
+	return bas; //returnare baza curenta
 }
 
 bool Number::operator>(const Number& other)
 {
-	if (InBaza10() > other.InBaza10())
+	if (InBaza10() > other.InBaza10()) //compara valorile in baza 10
 		return true;
 	return false;
 }
@@ -266,7 +266,7 @@ Number operator-(const Number& n1, const Number& n2) // scade 2 numere, daca rez
 
 	if (dif < 0) {
 		printf("Rezultatul este negativ, care nu este suportat în aceasta implementare.\n");
-		return Number("0", baseFinal);
+		return Number("0", baseFinal); //daca e negativ, returneaza 0
 	}
 
 	char* newValue = Number::DinBaza10(dif, baseFinal);
